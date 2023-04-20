@@ -18,6 +18,9 @@
                             </headerToolbar>
                             <columns>
                                 <Column>
+                                    <Text text="Vorname" />
+                                </Column>
+                                <Column>
                                     <Text text="Name" />
                                 </Column>
                                 <Column>
@@ -32,6 +35,7 @@
                             </columns>
                             <items>
                                 <ColumnListItem>
+                                    <Text text="{FirstName}" />
                                     <Text text="{Name}" />
                                     <Text text="{AddressLine1Text}" />
                                     <Text text="{Region}" />

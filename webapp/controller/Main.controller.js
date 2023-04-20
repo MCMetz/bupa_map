@@ -49,6 +49,7 @@ sap.ui.define([
                     this.byId("table").getBinding("items").filter([new Filter("AddressLine1Text", FilterOperator.Contains, sSearch)]);
                     this.byId("table").getBinding("items").filter([new Filter("Region", FilterOperator.Contains, sSearch)]);
                     this.byId("table").getBinding("items").filter([new Filter("Role", FilterOperator.Contains, sSearch)])
+                    this.byId("table").getBinding("items").filter([new Filter("FirstName", FilterOperator.Contains, sSearch)])
                 } 
                 else {
                     this.byId("table").getBinding("items").filter([]);
@@ -62,10 +63,11 @@ sap.ui.define([
                     const oFilter2 = new Filter("AddressLine1Text", FilterOperator.Contains, sSearch);
                     const oFilter3 = new Filter("Region", FilterOperator.Contains, sSearch);
                     const oFilter4 = new Filter("Role", FilterOperator.Contains, sSearch);
+                    const oFilter5 = new Filter("FirstName", FilterOperator.Contains, sSearch);
                     
                     // Combine the filters using logical OR
                     const oCombinedFilter = new Filter({
-                        filters: [oFilter1, oFilter2, oFilter3, oFilter4],
+                        filters: [oFilter1, oFilter2, oFilter3, oFilter4, oFilter5],
                         and: false
                     });
             
