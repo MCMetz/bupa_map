@@ -4,19 +4,22 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/m/MessageToast",
-    
-       
+    "sap/ui/core/Fragment",
+    "sap/ui/model/Sorter",
+      
+     
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, Filter, FilterOperator, MessageToast) {
+    function (Controller, JSONModel, Filter, FilterOperator, MessageToast, Fragment, Sorter) {
         "use strict";
 
         const searchCache = {};
-
+        
         return Controller.extend("bupamap.controller.Main", {
                 onInit: function () {
+                this._mDialogs = {};
                 const oMapModel = new JSONModel();
                 this.getView().setModel(oMapModel, "Map");
                 const oItemsBinding = this.byId("table").getBindingInfo("items");
@@ -26,6 +29,36 @@ sap.ui.define([
                     }
                 };
             },
+
+            _openDialog : function (sName, sPage, fInit) {
+                var oView = this.getView();
+               
+                            
+                // creates requested dialog if not yet created
+                if (!this._mDialogs[sName]) {
+                this._mDialogs[sName] = Fragment.load({
+                id: oView.getId(),
+                name: "bupamap.view." + sName,
+                controller: this
+                }).then(function(oDialog){
+                oView.addDependent(oDialog);
+                if (fInit) {
+               fInit(oDialog);
+               }
+                return oDialog;
+                });
+                }
+                this._mDialogs[sName].then(function(oDialog){
+               // opens the requested dialog
+                 oDialog.open(sPage);
+                });
+                },
+
+                // Opens View Settings Dialog
+handleOpenDialog: function () {
+    this._openDialog("Dialog");
+   },
+            
             onButtonPress: function () { var welcometext1 = this.getView().getModel("i18n").getResourceBundle().getText("welcometext");
             MessageToast.show(welcometext1); },
        
@@ -111,19 +144,18 @@ sap.ui.define([
 			
 
 			// filter binding
-            			const oList = this.byId("table");
-			            const oBinding = oList.getBinding("items");
+            			const oList = this.byId("items");
+			            const oBinding = oList.getBinding([oFilter1, oFilter2, oFilter3, oFilter4, oFilter5]);
            
-			oBinding.filter("items");
+		    this.byId("table").getBinding("items").filter(oBinding);
             }
         },
-		
-            
+        	            
             getCoordinates: function(sValue) {
                 const googleMapsApiToken = "AIzaSyB5T8aWSEsK0bMuYiSjUtzQRp9GUCE6mDA";
                 if(!(sValue in searchCache)) {
                     searchCache[sValue] = new Promise(function(resolve, reject) {
-                        fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + encodeURIComponent(sValue) + "&key=" + googleMapsApiToken).then(function(oResponse) {
+                        /*fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + encodeURIComponent(sValue) + "&key=" + googleMapsApiToken).then(function(oResponse) {
                             return oResponse.json();
                         }).then(function(oLocation) {
                             try {
@@ -138,7 +170,7 @@ sap.ui.define([
                                 console.log(e);
                                 reject(e);
                             }
-                        });
+                        }); */
                     });
                 }
                 return searchCache[sValue];
@@ -150,11 +182,58 @@ sap.ui.define([
                 const sExtent = `${aExtent[1]},${aExtent[0]},${aExtent[3]},${aExtent[2]}`;
                return sExtent;
                 },
-            onToggleSwitchChange: function(oEvent) {
-                var oSwitch = oEvent.getSource();
-                var oLabel = this.byId("dwd");
-                var bIsOn = oSwitch.getState();
-                oLabel._layer.setVisible(bIsOn);
-            }
+
+                // shows selected filters
+		handleConfirm: function (oEvent) {
+            var oTable = this.byId("table"),
+                mParams = oEvent.getParameters(),
+                oBinding = oTable.getBinding("items"),
+                sPath,
+                bDescending,
+                aSorters = [],
+                aFilters = [];
+
+ 
+
+            sPath = mParams.sortItem.getKey();
+            bDescending = mParams.sortDescending;
+            aSorters.push(new Sorter(sPath, bDescending));
+
+ 
+
+            // apply the selected sort and group settings
+            oBinding.sort(aSorters);
+mParams.filterItems.forEach(function(oItem) {
+                    var aSplit = oItem.getKey().split("___"),
+                        sPath = aSplit[0],
+                        sOperator = aSplit[1],
+                        sValue1 = aSplit[2],
+                        sValue2 = aSplit[3],
+                        oFilter = new Filter(sPath, sOperator, sValue1, sValue2);
+                    aFilters.push(oFilter);
+                });
+    
+     
+    
+                // apply filter settings
+                oBinding.filter(aFilters);
+   var vGroup,
+                aGroups = [];
+
+ 
+
+            if (mParams.groupItem) {
+                sPath = mParams.groupItem.getKey();
+                bDescending = mParams.groupDescending;
+                vGroup = true; 
+                aGroups.push(new Sorter(sPath, bDescending, vGroup));
+                // apply the selected group settings
+                oBinding.sort(aGroups);
+            }
+			if (oEvent.getParameters().filterString) {
+				MessageToast.show(oEvent.getParameters().filterString);
+			}
+		}
+                        
         });
     });

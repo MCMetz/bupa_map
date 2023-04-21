@@ -1,0 +1,25 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ViewSettingsDialog
+		confirm="handleConfirm">
+		<sortItems>
+			<ViewSettingsItem text="Vorname" key="FirstName" selected="true" />
+			<ViewSettingsItem text="Name" key="Name" />
+			<ViewSettingsItem text="Region" key="Region" />
+		</sortItems>
+		<groupItems>
+			<ViewSettingsItem text="Rolle" key="Role" selected="true" />
+			<ViewSettingsItem text="Adresse" key="AddressLine1Text" />
+		</groupItems>
+		<filterItems>
+			<ViewSettingsFilterItem text="Rolle" key="1">
+				<items>
+					<ViewSettingsItem text="Kunde" key="Role___EQ___FLCU01" />
+					<ViewSettingsItem text="Kreditor" key="Role___EQ___FLVN00" />
+					<ViewSettingsItem text="Lieferant" key="Role___EQ___FLVN01" />
+				</items>
+			</ViewSettingsFilterItem>
+		</filterItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>
