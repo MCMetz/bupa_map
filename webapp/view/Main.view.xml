@@ -1,27 +1,25 @@
-<mvc:View xmlns:f="sap.f" controllerName="bupamap.controller.Main"
+<mvc:View xmlns:smartfilterbar="sap.ui.comp.smartfilterbar" xmlns:filterbar="sap.ui.comp.filterbar" xmlns:f="sap.f" controllerName="bupamap.controller.Main"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:ol="incentergy.ol" xmlns:layer="incentergy.ol.layer" xmlns:source="incentergy.ol.source"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
         <content>
-            <f:FlexibleColumnLayout id="fcl" layout="TwoColumnsMidExpanded">
+                    <f:FlexibleColumnLayout id="fcl" layout="TwoColumnsMidExpanded">
                 <f:beginColumnPages>
                     <Page id="pageTable">
                         <Table id="table" growing="true" growingScrollToLoad="true" items="{/C_BusinessPartner}">
                             <headerToolbar>
                                 <Toolbar id="toolbar">
                                     <Label id="tableHeader" text="Geschäftspartner"/>
-                                    <ToolbarSpacer id="toolbarSpacer" />
-                                    <Label id="tableHeader1" text="Wetter anzeigen"/>
-                                    <Switch id="toggleSwitch" state="true" change=".onToggleSwitchChange" />
+                                    <smartfilterbar:SmartFilterBar id="SmartFilterBar" width="auto" search=".onFilterBupa" />
                                     <SearchField id="searchField" width="auto" search=".onFilterBupa" />
-                                </Toolbar>
+                                    </Toolbar>
                             </headerToolbar>
                             <columns>
                                 <Column>
                                     <Text text="Vorname" />
                                 </Column>
                                 <Column>
-                                    <Text text="Name" />
+                                    <Text text="Nachname" />
                                 </Column>
                                 <Column>
                                     <Text text="Addresse" />
@@ -47,7 +45,9 @@
                 </f:beginColumnPages>
                 <f:midColumnPages>
                     <Page id="pageMap">
-                        <ol:Map center="1152747.3744924355, 6585240.978424183" zoom="5" id="map">
+                    <Button xmlns="sap.m" text="Restaurants suchen" id="button3" press="getCoordinates2"/>
+                    <Button xmlns="sap.m" text="Restaurants speichern" id="button2" press="onButtonPress"/>
+                        <ol:Map center="1152747.3744924355, 6585240.978424183" zoom="3" id="map">
                             <layer:Tile>
                                 <source:OSM url="{= 'https://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=e5da76567a144d2888f7669cfcfc20b6'}"></source:OSM>
                             </layer:Tile>

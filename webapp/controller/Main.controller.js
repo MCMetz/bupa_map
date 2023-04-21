@@ -3,17 +3,20 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+    "sap/m/MessageToast",
+    
+       
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, Filter, FilterOperator) {
+    function (Controller, JSONModel, Filter, FilterOperator, MessageToast) {
         "use strict";
 
         const searchCache = {};
 
         return Controller.extend("bupamap.controller.Main", {
-            onInit: function () {
+                onInit: function () {
                 const oMapModel = new JSONModel();
                 this.getView().setModel(oMapModel, "Map");
                 const oItemsBinding = this.byId("table").getBindingInfo("items");
@@ -23,7 +26,13 @@ sap.ui.define([
                     }
                 };
             },
-            rebuildBupaPoints: function() {
+            onButtonPress: function () { var welcometext1 = this.getView().getModel("i18n").getResourceBundle().getText("welcometext");
+            MessageToast.show(welcometext1); },
+            onButtonPress2: function () { var welcometext2 = this.getView().getModel("i18n").getResourceBundle().getText("welcometext2");
+            MessageToast.show(welcometext2); },
+                       
+
+                rebuildBupaPoints: function() {
                 const oMapModel = this.getView().getModel("Map");
                 const oDataModel = this.getView().getModel();
                 const aBusinessPartner = this.byId("table").getBinding("items").getAllCurrentContexts().map(oContext => oDataModel.getProperty(oContext.getPath()));
@@ -77,6 +86,27 @@ sap.ui.define([
                     this.byId("table").getBinding("items").filter([]);
                 }
             },
+
+            
+		onFilterBupa2 : function (oEvent) {
+			// build filter array
+			const sQuery = oEvent.getParameter("query");
+			if (sQuery) {
+			const oFilter1 = new Filter("Name", FilterOperator.Contains, sQuery);
+            const oFilter2 = new Filter("AdressLineText", FilterOperator.Contains, sQuery);
+            const oFilter3 = new Filter("Region", FilterOperator.Contains, sQuery);
+            const oFilter4 = new Filter("Role", FilterOperator.Contains, sQuery);
+            const oFilter5 = new Filter("FirstName", FilterOperator.Contains, sQuery);
+			
+
+			// filter binding
+            			const oList = this.byId("items");
+			            const oBinding = oList.getBinding("items");
+           
+			oBinding.filter("items");
+            }
+        },
+		
             
             getCoordinates: function(sValue) {
                 const googleMapsApiToken = "AIzaSyB5T8aWSEsK0bMuYiSjUtzQRp9GUCE6mDA";
@@ -102,6 +132,13 @@ sap.ui.define([
                 }
                 return searchCache[sValue];
             },
+            
+                _getMapExtent: function() {
+               const oMap = this.byId("map");
+                 const aExtent = oMap.getView().calculateExtent();
+                const sExtent = `${aExtent[1]},${aExtent[0]},${aExtent[3]},${aExtent[2]}`;
+               return sExtent;
+                },
             onToggleSwitchChange: function(oEvent) {
                 var oSwitch = oEvent.getSource();
                 var oLabel = this.byId("dwd");
