@@ -10,7 +10,7 @@
                             <headerToolbar>
                                 <Toolbar id="toolbar">
                                     <Label id="tableHeader" text="Geschäftspartner"/>
-                                    <smartfilterbar:SmartFilterBar id="SmartFilterBar" width="auto" search=".onFilterBupa" />
+                                    <smartfilterbar:SmartFilterBar id="SmartFilterBar" width="auto" search=".onFilterBupa2" />
                                     <SearchField id="searchField" width="auto" search=".onFilterBupa" />
                                     </Toolbar>
                             </headerToolbar>
@@ -45,7 +45,7 @@
                 </f:beginColumnPages>
                 <f:midColumnPages>
                     <Page id="pageMap">
-                    <Button xmlns="sap.m" text="Restaurants suchen" id="button3" press="getCoordinates2"/>
+                    <Button xmlns="sap.m" text="Restaurants suchen" id="button3" press="findRestaurants"/>
                     <Button xmlns="sap.m" text="Restaurants speichern" id="button2" press="onButtonPress"/>
                         <ol:Map center="1152747.3744924355, 6585240.978424183" zoom="3" id="map">
                             <layer:Tile>

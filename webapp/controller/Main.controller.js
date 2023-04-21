@@ -28,8 +28,19 @@ sap.ui.define([
             },
             onButtonPress: function () { var welcometext1 = this.getView().getModel("i18n").getResourceBundle().getText("welcometext");
             MessageToast.show(welcometext1); },
-            onButtonPress2: function () { var welcometext2 = this.getView().getModel("i18n").getResourceBundle().getText("welcometext2");
-            MessageToast.show(welcometext2); },
+       
+        findRestaurants: async function() {
+            const coord = this.getCoordinates("Altenessener Straße 402 45329 Essen DE");
+            const query = `[out:json];
+            area[name="Essen"]->.a;
+            node(area.a)["amenity"="restaurant"];
+            out;`;
+            const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            const restaurants = data.elements.filter(elem => elem.tags && elem.tags.amenity === "restaurant");
+            return restaurants;
+          },
                        
 
                 rebuildBupaPoints: function() {
@@ -100,7 +111,7 @@ sap.ui.define([
 			
 
 			// filter binding
-            			const oList = this.byId("items");
+            			const oList = this.byId("table");
 			            const oBinding = oList.getBinding("items");
            
 			oBinding.filter("items");
