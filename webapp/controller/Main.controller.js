@@ -186,50 +186,42 @@ handleOpenDialog: function () {
                 // shows selected filters
 		handleConfirm: function (oEvent) {
             var oTable = this.byId("table"),
-                mParams = oEvent.getParameters(),
-                oBinding = oTable.getBinding("items"),
-                sPath,
-                bDescending,
-                aSorters = [],
+ mParams = oEvent.getParameters(),
+ oBinding = oTable.getBinding("items"),
+ sPath,
+ bDescending,
+ aSorters = [],
                 aFilters = [];
 
- 
+sPath = mParams.sortItem.getKey();
+ bDescending = mParams.sortDescending;
+ aSorters.push(new Sorter(sPath, bDescending));
 
-            sPath = mParams.sortItem.getKey();
-            bDescending = mParams.sortDescending;
-            aSorters.push(new Sorter(sPath, bDescending));
-
- 
-
-            // apply the selected sort and group settings
-            oBinding.sort(aSorters);
+ // apply the selected sort and group settings
+ oBinding.sort(aSorters);
 mParams.filterItems.forEach(function(oItem) {
-                    var aSplit = oItem.getKey().split("___"),
-                        sPath = aSplit[0],
-                        sOperator = aSplit[1],
-                        sValue1 = aSplit[2],
-                        sValue2 = aSplit[3],
-                        oFilter = new Filter(sPath, sOperator, sValue1, sValue2);
-                    aFilters.push(oFilter);
-                });
+    var aSplit = oItem.getKey().split("___"),
+   sPath = aSplit[0],
+   sOperator = aSplit[1],
+    sValue1 = aSplit[2],
+    sValue2 = aSplit[3],
+ oFilter = new Filter(sPath, sOperator, sValue1, sValue2);
+  aFilters.push(oFilter);
+  });
     
-     
-    
-                // apply filter settings
-                oBinding.filter(aFilters);
+     // apply filter settings
+     oBinding.filter(aFilters);
    var vGroup,
-                aGroups = [];
+ aGroups = [];
 
- 
-
-            if (mParams.groupItem) {
-                sPath = mParams.groupItem.getKey();
-                bDescending = mParams.groupDescending;
-                vGroup = true; 
-                aGroups.push(new Sorter(sPath, bDescending, vGroup));
-                // apply the selected group settings
-                oBinding.sort(aGroups);
-            }
+ if (mParams.groupItem) {
+sPath = mParams.groupItem.getKey();
+ bDescending = mParams.groupDescending;
+ vGroup = true; 
+ aGroups.push(new Sorter(sPath, bDescending, vGroup));
+ // apply the selected group settings
+ oBinding.sort(aGroups);
+ }
 			if (oEvent.getParameters().filterString) {
 				MessageToast.show(oEvent.getParameters().filterString);
 			}

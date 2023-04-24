@@ -5,12 +5,13 @@
 		confirm="handleConfirm">
 		<sortItems>
 			<ViewSettingsItem text="Vorname" key="FirstName" selected="true" />
-			<ViewSettingsItem text="Name" key="Name" />
+			<ViewSettingsItem text="Nachname" key="Name" />
 			<ViewSettingsItem text="Region" key="Region" />
 		</sortItems>
 		<groupItems>
-			<ViewSettingsItem text="Rolle" key="Role" selected="true" />
+			<ViewSettingsItem text="Rolle" key="Role" />
 			<ViewSettingsItem text="Adresse" key="AddressLine1Text" />
+			<ViewSettingsItem text="Region" key="Region" />
 		</groupItems>
 		<filterItems>
 			<ViewSettingsFilterItem text="Rolle" key="1">
@@ -19,6 +20,14 @@
 					<ViewSettingsItem text="Kreditor" key="Role___EQ___FLVN00" />
 					<ViewSettingsItem text="Lieferant" key="Role___EQ___FLVN01" />
 				</items>
+			</ViewSettingsFilterItem>
+			<ViewSettingsFilterItem text="Adresse" key="2">
+			<items>
+			<ViewSettingsItem text="Essen" key="CityName___EQ___Essen" />
+			<ViewSettingsItem text="Hamburg" key="CityName___EQ___Hamburg" />
+			<ViewSettingsItem text="Berlin" key="CityName___EQ___Berlin" />
+			<ViewSettingsItem text="München" key="CityName___EQ___München" />
+			</items>
 			</ViewSettingsFilterItem>
 		</filterItems>
 	</ViewSettingsDialog>

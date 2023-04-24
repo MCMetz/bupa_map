@@ -1,6 +1,6 @@
 <mvc:View xmlns:smartfilterbar="sap.ui.comp.smartfilterbar" xmlns:filterbar="sap.ui.comp.filterbar" xmlns:f="sap.f" controllerName="bupamap.controller.Main"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:ol="incentergy.ol" xmlns:layer="incentergy.ol.layer" xmlns:source="incentergy.ol.source"
-    xmlns:filter="sap.Filter" xmlns="sap.m">
+    xmlns:filter="sap.Filter" xmlns="sap.m" xmlns:l="sap.ui.layout">
     <Page id="page" title="{i18n>title}">
         <content>
             <f:FlexibleColumnLayout id="fcl" layout="TwoColumnsMidExpanded">
@@ -9,10 +9,10 @@
                         <Table id="table" growing="true" growingScrollToLoad="true" items="{/C_BusinessPartner}">
                             <headerToolbar>
                                 <Toolbar id="toolbar">
-                                    <Label id="tableHeader" text="Geschäftspartner"/>
-                                    <Button xmlns:filter="sap.Filter" id="button4" text="Filter" icon="sap-icon://filter" press="handleOpenDialog"/>
-                                    <ToolbarSpacer id="ToolbarSpacer"/> 
-                                    <SearchField id="searchField" width="50%" search=".onFilterBupa" />
+                                    <Label id="tableHeader" text="Geschäftspartner"/> 
+                                    <ToolbarSpacer id="ToolbarSpacer"/>                               
+                                    <SearchField id="searchField" width="33%" search=".onFilterBupa" />
+                                     <Button xmlns:filter="sap.Filter" id="button4" text="" icon="sap-icon://filter" press="handleOpenDialog"/>
                                 </Toolbar>
                             </headerToolbar>
                             <columns>
