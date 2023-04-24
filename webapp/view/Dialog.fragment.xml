@@ -11,9 +11,11 @@
 			<ViewSettingsItem text="Rolle" key="Role" />
 		</sortItems>
 		<groupItems>
+		    <ViewSettingsItem text="Vorname" key="FirstName" />
+		    <ViewSettingsItem text="Nachname" key="Name" />
 			<ViewSettingsItem text="Rolle" key="Role" />
 			<ViewSettingsItem text="Adresse" key="AddressLine1Text" />
-			<ViewSettingsItem text="Region" key="Region" />
+			<ViewSettingsItem text="Bundesland" key="Region" />
 		</groupItems>
 		<filterItems>
 			<ViewSettingsFilterItem text="Rolle" key="1">
