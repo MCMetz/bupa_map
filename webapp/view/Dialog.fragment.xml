@@ -6,7 +6,9 @@
 		<sortItems>
 			<ViewSettingsItem text="Vorname" key="FirstName" selected="true" />
 			<ViewSettingsItem text="Nachname" key="Name" />
-			<ViewSettingsItem text="Region" key="Region" />
+			<ViewSettingsItem text="Adresse" key="AddressLine1Text" />
+			<ViewSettingsItem text="Bundesland" key="Region" />
+			<ViewSettingsItem text="Rolle" key="Role" />
 		</sortItems>
 		<groupItems>
 			<ViewSettingsItem text="Rolle" key="Role" />
